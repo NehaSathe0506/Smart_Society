@@ -7,6 +7,7 @@ Run with:  python app.py
 Then open: http://127.0.0.1:5000
 """
 
+import os
 import sqlite3
 import hashlib
 from datetime import datetime
