@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Resident Profile - Smart Society{% endblock %}
+{% block page_title %}Resident Profile{% endblock %}
+
+{% block content %}
+<div class="card profile-card">
+    <div class="profile-header">
+        <div class="profile-avatar">{{ resident.full_name[0]|upper }}</div>
+        <div>
+            <h2>{{ resident.full_name }}</h2>
+            <span class="badge badge-normal">{{ resident.resident_type }}</span>
+        </div>
+    </div>
+    <div class="profile-details">
+        <div class="profile-item"><span class="profile-label">Flat Number</span><span>{{ resident.flat_number }}</span></div>
+        <div class="profile-item"><span class="profile-label">Wing</span><span>{{ resident.wing }}</span></div>
+        <div class="profile-item"><span class="profile-label">Phone</span><span>{{ resident.phone }}</span></div>
+        <div class="profile-item"><span class="profile-label">Email</span><span>{{ resident.email }}</span></div>
+    </div>
+    <div class="form-actions">
+        <a href="{{ url_for('residents_edit', id=resident.id) }}" class="btn btn-primary">&#9998; Edit Profile</a>
+        <a href="{{ url_for('residents') }}" class="btn btn-outline">Back to Residents</a>
+    </div>
+</div>
+{% endblock %}

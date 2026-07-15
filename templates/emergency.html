@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Emergency Contacts - Smart Society{% endblock %}
+{% block page_title %}Emergency Contacts{% endblock %}
+
+{% block content %}
+{% if current_role == 'admin' %}
+<div class="page-toolbar">
+    <p class="page-subtitle">Manage emergency contact numbers</p>
+    <a href="{{ url_for('emergency_add') }}" class="btn btn-primary">&#10133; Add Contact</a>
+</div>
+{% endif %}
+
+{% if contacts %}
+<div class="emergency-grid">
+    {% for c in contacts %}
+    <div class="card emergency-card">
+        <div class="emergency-icon">&#9742;</div>
+        <h3>{{ c.contact_name }}</h3>
+        <span class="badge badge-normal">{{ c.contact_type }}</span>
+        <p class="emergency-phone">{{ c.phone }}</p>
+        <p>{{ c.description }}</p>
+        <div class="form-actions">
+            <a href="tel:{{ c.phone }}" class="btn btn-primary btn-sm">&#128222; Call Now</a>
+            {% if current_role == 'admin' %}
+                <a href="{{ url_for('emergency_edit', id=c.id) }}" class="btn btn-outline btn-sm">Edit</a>
+                <a href="{{ url_for('emergency_delete', id=c.id) }}" class="btn btn-outline btn-sm" onclick="return confirmDelete('contact')">Delete</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <div class="card"><p class="empty-state">No emergency contacts added yet.</p></div>
+{% endif %}
+{% endblock %}

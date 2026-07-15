@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Publish Notice - Smart Society{% endblock %}
+{% block page_title %}Publish Notice{% endblock %}
+
+{% block content %}
+<div class="card form-card">
+    <form method="POST" class="modern-form">
+        <div class="form-group">
+            <label>Notice Title</label>
+            <input type="text" name="title" required>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" rows="4" required></textarea>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" name="notice_date" required>
+            </div>
+            <div class="form-group">
+                <label>Priority</label>
+                <select name="priority" required>
+                    <option value="Normal">Normal</option>
+                    <option value="Important">Important</option>
+                    <option value="Urgent">Urgent</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Publish Notice</button>
+            <a href="{{ url_for('notices') }}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

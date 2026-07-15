@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Residents - Smart Society{% endblock %}
+{% block page_title %}Resident Management{% endblock %}
+
+{% block content %}
+<div class="page-toolbar">
+    <form method="GET" class="search-form">
+        <input type="text" name="q" placeholder="Search by name, flat number or wing..." value="{{ query }}">
+        <button type="submit" class="btn btn-outline">&#128269; Search</button>
+    </form>
+    <a href="{{ url_for('residents_add') }}" class="btn btn-primary">&#10133; Add Resident</a>
+</div>
+
+<div class="card">
+    {% if residents %}
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Name</th><th>Flat No.</th><th>Wing</th><th>Phone</th><th>Email</th><th>Type</th><th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in residents %}
+                <tr>
+                    <td>{{ r.full_name }}</td>
+                    <td>{{ r.flat_number }}</td>
+                    <td>{{ r.wing }}</td>
+                    <td>{{ r.phone }}</td>
+                    <td>{{ r.email }}</td>
+                    <td><span class="badge badge-normal">{{ r.resident_type }}</span></td>
+                    <td class="actions-cell">
+                        <a href="{{ url_for('residents_view', id=r.id) }}" class="btn-icon" title="View">&#128065;</a>
+                        <a href="{{ url_for('residents_edit', id=r.id) }}" class="btn-icon" title="Edit">&#9998;</a>
+                        <a href="{{ url_for('residents_delete', id=r.id) }}" class="btn-icon btn-icon-danger" title="Delete" onclick="return confirmDelete('resident')">&#128465;</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="empty-state">No residents found. Try adding a new resident.</p>
+    {% endif %}
+</div>
+{% endblock %}

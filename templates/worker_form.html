@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if worker else 'Add' }} Worker - Smart Society{% endblock %}
+{% block page_title %}{{ 'Edit' if worker else 'Add' }} Worker{% endblock %}
+
+{% block content %}
+<div class="card form-card">
+    <form method="POST" class="modern-form">
+        {% if worker %}
+        <div class="form-group">
+            <label>Worker ID</label>
+            <input type="text" value="{{ worker.worker_id }}" disabled>
+        </div>
+        {% endif %}
+        <div class="form-row">
+            <div class="form-group">
+                <label>Worker Name</label>
+                <input type="text" name="worker_name" value="{{ worker.worker_name if worker else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" name="phone" value="{{ worker.phone if worker else '' }}" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Worker Type</label>
+            <select name="worker_type" required>
+                {% for t in ['Housekeeping','Security Guard','Electrician','Plumber','Gardener','Domestic Help'] %}
+                    <option value="{{ t }}" {{ 'selected' if worker and worker.worker_type == t }}>{{ t }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">{{ 'Update Worker' if worker else 'Add Worker' }}</button>
+            <a href="{{ url_for('workers') }}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

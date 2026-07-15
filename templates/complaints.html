@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Complaints - Smart Society{% endblock %}
+{% block page_title %}{{ 'Complaint Management' if current_role == 'admin' else 'My Complaints' }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="GET" class="filter-form">
+        <div class="form-group">
+            <label>Category</label>
+            <select name="category">
+                <option value="">All Categories</option>
+                {% for c in ['Water','Electricity','Lift','Parking','Security','Cleanliness','Other'] %}
+                    <option value="{{ c }}" {{ 'selected' if category_filter == c }}>{{ c }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            <select name="status">
+                <option value="">All Statuses</option>
+                {% for s in ['Pending','In Progress','Resolved'] %}
+                    <option value="{{ s }}" {{ 'selected' if status_filter == s }}>{{ s }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="{{ url_for('complaints') }}" class="btn btn-outline">Reset</a>
+    </form>
+</div>
+
+<div class="page-toolbar">
+    <p class="page-subtitle">{{ complaints|length }} complaint(s) found</p>
+    <a href="{{ url_for('complaints_add') }}" class="btn btn-primary">&#10133; Submit Complaint</a>
+</div>
+
+<div class="card">
+    {% if complaints %}
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Title</th><th>Flat No.</th><th>Category</th><th>Date</th><th>Status</th>
+                    {% if current_role == 'admin' %}<th>Action</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in complaints %}
+                <tr>
+                    <td>{{ c.title }}</td>
+                    <td>{{ c.flat_number }}</td>
+                    <td>{{ c.category }}</td>
+                    <td>{{ c.complaint_date }}</td>
+                    <td>
+                        {% if c.status == 'Pending' %}<span class="badge badge-danger">Pending</span>
+                        {% elif c.status == 'In Progress' %}<span class="badge badge-important">In Progress</span>
+                        {% else %}<span class="badge badge-success">Resolved</span>{% endif %}
+                    </td>
+                    {% if current_role == 'admin' %}
+                    <td class="actions-cell">
+                        <a href="{{ url_for('complaints_update', id=c.id) }}" class="btn btn-outline btn-sm">Update</a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="empty-state">No complaints found.</p>
+    {% endif %}
+</div>
+{% endblock %}

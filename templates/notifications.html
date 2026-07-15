@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Notifications - Smart Society{% endblock %}
+{% block page_title %}Notifications{% endblock %}
+
+{% block content %}
+<div class="page-toolbar">
+    <p class="page-subtitle">{{ notifications|length }} notification(s)</p>
+    <a href="{{ url_for('notifications_read_all') }}" class="btn btn-outline">&#10003; Mark All as Read</a>
+</div>
+
+<div class="card">
+    {% if notifications %}
+    <ul class="notif-list">
+        {% for n in notifications %}
+        <li class="notif-item {{ 'notif-unread' if not n.is_read }}">
+            <div class="notif-content">
+                <span class="badge badge-normal">{{ n.notification_type }}</span>
+                <strong>{{ n.title }}</strong>
+                <p>{{ n.message }}</p>
+                <span class="mini-date">{{ n.created_date }}</span>
+            </div>
+            {% if not n.is_read %}
+                <a href="{{ url_for('notifications_read', id=n.id) }}" class="btn btn-outline btn-sm">Mark Read</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p class="empty-state">No notifications yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

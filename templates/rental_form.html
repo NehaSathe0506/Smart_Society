@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if rental else 'New' }} Rental - Smart Society{% endblock %}
+{% block page_title %}{{ 'Edit' if rental else 'New' }} Rental Registration{% endblock %}
+
+{% block content %}
+<div class="card form-card">
+    <form method="POST" class="modern-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Tenant Name</label>
+                <input type="text" name="tenant_name" value="{{ rental.tenant_name if rental else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label>Flat Number</label>
+                <input type="text" name="flat_number" value="{{ rental.flat_number if rental else '' }}" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Owner Name</label>
+                <input type="text" name="owner_name" value="{{ rental.owner_name if rental else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" name="phone" value="{{ rental.phone if rental else '' }}" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" value="{{ rental.email if rental else '' }}">
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Move-In Date</label>
+                <input type="date" name="move_in_date" value="{{ rental.move_in_date if rental else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label>Rental Status</label>
+                <select name="rental_status" required>
+                    <option value="Active" {{ 'selected' if rental and rental.rental_status == 'Active' }}>Active</option>
+                    <option value="Expired" {{ 'selected' if rental and rental.rental_status == 'Expired' }}>Expired</option>
+                    <option value="Pending Verification" {{ 'selected' if rental and rental.rental_status == 'Pending Verification' }}>Pending Verification</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Agreement Start Date</label>
+                <input type="date" name="agreement_start_date" value="{{ rental.agreement_start_date if rental else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label>Agreement End Date</label>
+                <input type="date" name="agreement_end_date" value="{{ rental.agreement_end_date if rental else '' }}" required>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">{{ 'Update' if rental else 'Register' }}</button>
+            <a href="{{ url_for('rentals') }}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

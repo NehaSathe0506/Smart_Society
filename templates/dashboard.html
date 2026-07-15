@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Smart Society{% endblock %}
+{% block page_title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon" style="background:#EFF6FF;color:#2563EB;">&#128101;</div>
+        <div class="stat-value">{{ total_residents }}</div>
+        <div class="stat-title">Total Residents</div>
+        <div class="stat-desc">Registered in the society</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="background:#F0FDF4;color:#16A34A;">&#128119;</div>
+        <div class="stat-value">{{ active_workers }}</div>
+        <div class="stat-title">Active Workers</div>
+        <div class="stat-desc">Employed staff members</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="background:#FFFBEB;color:#F59E0B;">&#128100;</div>
+        <div class="stat-value">{{ today_visitors }}</div>
+        <div class="stat-title">Today's Visitors</div>
+        <div class="stat-desc">Recorded entries today</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="background:#FEF2F2;color:#DC2626;">&#9888;</div>
+        <div class="stat-value">{{ pending_complaints }}</div>
+        <div class="stat-title">Pending Complaints</div>
+        <div class="stat-desc">Awaiting resolution</div>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <div class="card">
+        <h3 class="card-heading">Complaint Statistics</h3>
+        <div class="bar-chart">
+            <div class="bar-row">
+                <span class="bar-label">Pending</span>
+                <div class="bar-track"><div class="bar-fill" style="width: {{ (pending_c / ((pending_c+progress_c+resolved_c) or 1) * 100) }}%; background:#DC2626;"></div></div>
+                <span class="bar-count">{{ pending_c }}</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">In Progress</span>
+                <div class="bar-track"><div class="bar-fill" style="width: {{ (progress_c / ((pending_c+progress_c+resolved_c) or 1) * 100) }}%; background:#F59E0B;"></div></div>
+                <span class="bar-count">{{ progress_c }}</span>
+            </div>
+            <div class="bar-row">
+                <span class="bar-label">Resolved</span>
+                <div class="bar-track"><div class="bar-fill" style="width: {{ (resolved_c / ((pending_c+progress_c+resolved_c) or 1) * 100) }}%; background:#16A34A;"></div></div>
+                <span class="bar-count">{{ resolved_c }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3 class="card-heading">Recent Notices</h3>
+        {% if recent_notices %}
+            <ul class="mini-list">
+            {% for n in recent_notices %}
+                <li>
+                    <div>
+                        <strong>{{ n.title }}</strong>
+                        <span class="mini-date">{{ n.notice_date }}</span>
+                    </div>
+                    <span class="badge badge-{{ n.priority|lower }}">{{ n.priority }}</span>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-state">No notices published yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <h3 class="card-heading">Quick Actions</h3>
+    <div class="quick-actions">
+        <a href="{{ url_for('residents_add') }}" class="btn btn-outline">&#10133; Add Resident</a>
+        <a href="{{ url_for('visitors_add') }}" class="btn btn-outline">&#10133; Add Visitor</a>
+        <a href="{{ url_for('workers_add') }}" class="btn btn-outline">&#10133; Add Worker</a>
+        <a href="{{ url_for('notices_add') }}" class="btn btn-outline">&#10133; Publish Notice</a>
+        <a href="{{ url_for('complaints') }}" class="btn btn-outline">&#128065; View Complaints</a>
+    </div>
+</div>
+{% endblock %}

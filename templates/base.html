@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Smart Society{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<button class="hamburger" id="hamburgerBtn">&#9776;</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+        <span class="brand-icon">&#127961;</span>
+        <span class="brand-text">Smart Society</span>
+    </div>
+
+    <nav class="sidebar-nav">
+        {% if current_role == 'admin' %}
+            <a href="{{ url_for('dashboard') }}" class="{{ 'active' if request.path == '/dashboard' }}">&#128202; Dashboard</a>
+            <a href="{{ url_for('residents') }}" class="{{ 'active' if '/residents' in request.path }}">&#128101; Residents</a>
+            <a href="{{ url_for('visitors') }}" class="{{ 'active' if '/visitors' in request.path }}">&#128100; Visitors</a>
+            <a href="{{ url_for('attendance') }}" class="{{ 'active' if '/attendance' in request.path }}">&#128203; Worker Attendance</a>
+            <a href="{{ url_for('notices') }}" class="{{ 'active' if '/notices' in request.path }}">&#128276; Notice Board</a>
+            <a href="{{ url_for('complaints') }}" class="{{ 'active' if '/complaints' in request.path }}">&#9888; Complaints</a>
+            <a href="{{ url_for('rentals') }}" class="{{ 'active' if '/rentals' in request.path }}">&#127968; Rental Registration</a>
+            <a href="{{ url_for('emergency') }}" class="{{ 'active' if '/emergency' in request.path }}">&#9742; Emergency Contacts</a>
+            <a href="{{ url_for('notifications') }}" class="{{ 'active' if '/notifications' in request.path }}">&#128276; Notifications</a>
+            <a href="{{ url_for('admin_panel') }}" class="{{ 'active' if request.path == '/admin' }}">&#9881; Admin Panel</a>
+            <a href="{{ url_for('settings') }}" class="{{ 'active' if request.path == '/settings' }}">&#9881; Settings</a>
+            <a href="{{ url_for('logout') }}" class="logout-link">&#8630; Logout</a>
+        {% elif current_role == 'resident' %}
+            <a href="{{ url_for('resident_dashboard') }}" class="{{ 'active' if request.path == '/resident-dashboard' }}">&#128202; Dashboard</a>
+            <a href="{{ url_for('notices') }}" class="{{ 'active' if '/notices' in request.path }}">&#128276; Notice Board</a>
+            <a href="{{ url_for('complaints') }}" class="{{ 'active' if '/complaints' in request.path }}">&#9888; My Complaints</a>
+            <a href="{{ url_for('rentals') }}" class="{{ 'active' if '/rentals' in request.path }}">&#127968; Rental Registration</a>
+            <a href="{{ url_for('emergency') }}" class="{{ 'active' if '/emergency' in request.path }}">&#9742; Emergency Contacts</a>
+            <a href="{{ url_for('notifications') }}" class="{{ 'active' if '/notifications' in request.path }}">&#128276; Notifications</a>
+            <a href="{{ url_for('settings') }}" class="{{ 'active' if request.path == '/settings' }}">&#9881; Settings</a>
+            <a href="{{ url_for('logout') }}" class="logout-link">&#8630; Logout</a>
+        {% endif %}
+    </nav>
+</aside>
+
+<div class="main-content">
+    <header class="topbar">
+        <div class="topbar-title">{% block page_title %}Dashboard{% endblock %}</div>
+        <div class="topbar-right">
+            <a href="{{ url_for('notifications') }}" class="notif-bell">
+                &#128276;
+                {% if unread_count and unread_count > 0 %}
+                    <span class="notif-badge">{{ unread_count }}</span>
+                {% endif %}
+            </a>
+            <div class="user-profile">
+                <span class="user-avatar">{{ current_username[0]|upper if current_username else '?' }}</span>
+                <div class="user-info">
+                    <span class="user-name">{{ current_username }}</span>
+                    <span class="user-role">{{ current_role }}</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container" id="flashContainer">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

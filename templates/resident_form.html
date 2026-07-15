@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if resident else 'Add' }} Resident - Smart Society{% endblock %}
+{% block page_title %}{{ 'Edit' if resident else 'Add' }} Resident{% endblock %}
+
+{% block content %}
+<div class="card form-card">
+    <form method="POST" class="modern-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="full_name" value="{{ resident.full_name if resident else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label>Flat Number</label>
+                <input type="text" name="flat_number" value="{{ resident.flat_number if resident else '' }}" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Building / Wing</label>
+                <input type="text" name="wing" value="{{ resident.wing if resident else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" name="phone" value="{{ resident.phone if resident else '' }}">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" value="{{ resident.email if resident else '' }}">
+            </div>
+            <div class="form-group">
+                <label>Resident Type</label>
+                <select name="resident_type" required>
+                    <option value="Owner" {{ 'selected' if resident and resident.resident_type == 'Owner' }}>Owner</option>
+                    <option value="Tenant" {{ 'selected' if resident and resident.resident_type == 'Tenant' }}>Tenant</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">{{ 'Update Resident' if resident else 'Add Resident' }}</button>
+            <a href="{{ url_for('residents') }}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

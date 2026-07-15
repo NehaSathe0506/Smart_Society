@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Add Visitor - Smart Society{% endblock %}
+{% block page_title %}Add Visitor{% endblock %}
+
+{% block content %}
+<div class="card form-card">
+    <form method="POST" class="modern-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Visitor Name</label>
+                <input type="text" name="visitor_name" required>
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" name="phone" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Flat Number</label>
+                <input type="text" name="flat_number" required>
+            </div>
+            <div class="form-group">
+                <label>Visit Purpose</label>
+                <input type="text" name="purpose" required>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Record Entry</button>
+            <a href="{{ url_for('visitors') }}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

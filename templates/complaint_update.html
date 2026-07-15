@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Update Complaint - Smart Society{% endblock %}
+{% block page_title %}Update Complaint Status{% endblock %}
+
+{% block content %}
+<div class="card form-card">
+    <h3>{{ complaint.title }}</h3>
+    <p class="page-subtitle">{{ complaint.description }}</p>
+    <p><strong>Flat:</strong> {{ complaint.flat_number }} &nbsp; <strong>Category:</strong> {{ complaint.category }} &nbsp; <strong>Date:</strong> {{ complaint.complaint_date }}</p>
+
+    <form method="POST" class="modern-form">
+        <div class="form-group">
+            <label>Status</label>
+            <select name="status" required>
+                <option value="Pending" {{ 'selected' if complaint.status == 'Pending' }}>Pending</option>
+                <option value="In Progress" {{ 'selected' if complaint.status == 'In Progress' }}>In Progress</option>
+                <option value="Resolved" {{ 'selected' if complaint.status == 'Resolved' }}>Resolved</option>
+            </select>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Update Status</button>
+            <a href="{{ url_for('complaints') }}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

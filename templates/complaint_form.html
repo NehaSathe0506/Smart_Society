@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Submit Complaint - Smart Society{% endblock %}
+{% block page_title %}Submit Complaint{% endblock %}
+
+{% block content %}
+<div class="card form-card">
+    <form method="POST" class="modern-form">
+        <div class="form-group">
+            <label>Complaint Title</label>
+            <input type="text" name="title" required>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" rows="4" required></textarea>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Flat Number</label>
+                <input type="text" name="flat_number" required>
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category" required>
+                    {% for c in ['Water','Electricity','Lift','Parking','Security','Cleanliness','Other'] %}
+                        <option value="{{ c }}">{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Submit Complaint</button>
+            <a href="{{ url_for('complaints') }}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

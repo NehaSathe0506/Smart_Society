@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if contact else 'Add' }} Emergency Contact - Smart Society{% endblock %}
+{% block page_title %}{{ 'Edit' if contact else 'Add' }} Emergency Contact{% endblock %}
+
+{% block content %}
+<div class="card form-card">
+    <form method="POST" class="modern-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Contact Name</label>
+                <input type="text" name="contact_name" value="{{ contact.contact_name if contact else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label>Contact Type</label>
+                <select name="contact_type" required>
+                    {% for t in ['Police','Fire Brigade','Ambulance','Hospital','Society Security','Society Manager'] %}
+                        <option value="{{ t }}" {{ 'selected' if contact and contact.contact_type == t }}>{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" name="phone" value="{{ contact.phone if contact else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea name="description" rows="3">{{ contact.description if contact else '' }}</textarea>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">{{ 'Update Contact' if contact else 'Add Contact' }}</button>
+            <a href="{{ url_for('emergency') }}" class="btn btn-outline">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

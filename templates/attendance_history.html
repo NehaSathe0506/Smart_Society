@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Attendance History - Smart Society{% endblock %}
+{% block page_title %}Attendance History{% endblock %}
+
+{% block content %}
+<div class="card">
+    <form method="GET" class="filter-form">
+        <div class="form-group">
+            <label>Date</label>
+            <input type="date" name="date" value="{{ date_filter }}">
+        </div>
+        <div class="form-group">
+            <label>Worker Type</label>
+            <select name="type">
+                <option value="">All Types</option>
+                {% for t in worker_types %}
+                    <option value="{{ t.worker_type }}" {{ 'selected' if type_filter == t.worker_type }}>{{ t.worker_type }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="{{ url_for('attendance_history') }}" class="btn btn-outline">Reset</a>
+    </form>
+</div>
+
+<div class="card">
+    {% if records %}
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr><th>Worker</th><th>Type</th><th>Date</th><th>Check-In</th><th>Check-Out</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                {% for r in records %}
+                <tr>
+                    <td>{{ r.worker_name }}</td>
+                    <td>{{ r.worker_type }}</td>
+                    <td>{{ r.attendance_date }}</td>
+                    <td>{{ r.check_in }}</td>
+                    <td>{{ r.check_out or '-' }}</td>
+                    <td><span class="badge badge-success">{{ r.status }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="empty-state">No attendance records found for the selected filters.</p>
+    {% endif %}
+</div>
+{% endblock %}

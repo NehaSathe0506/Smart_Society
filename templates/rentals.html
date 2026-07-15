@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Rentals - Smart Society{% endblock %}
+{% block page_title %}Rental Registration{% endblock %}
+
+{% block content %}
+<div class="page-toolbar">
+    <p class="page-subtitle">{{ rentals|length }} registration(s)</p>
+    <a href="{{ url_for('rentals_add') }}" class="btn btn-primary">&#10133; New Registration</a>
+</div>
+
+<div class="card">
+    {% if rentals %}
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Tenant</th><th>Flat No.</th><th>Owner</th><th>Phone</th><th>Move-In</th><th>Status</th>
+                    {% if current_role == 'admin' %}<th>Actions</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in rentals %}
+                <tr>
+                    <td>{{ r.tenant_name }}</td>
+                    <td>{{ r.flat_number }}</td>
+                    <td>{{ r.owner_name }}</td>
+                    <td>{{ r.phone }}</td>
+                    <td>{{ r.move_in_date }}</td>
+                    <td>
+                        {% if r.rental_status == 'Active' %}<span class="badge badge-success">Active</span>
+                        {% elif r.rental_status == 'Expired' %}<span class="badge badge-danger">Expired</span>
+                        {% else %}<span class="badge badge-important">Pending Verification</span>{% endif %}
+                    </td>
+                    {% if current_role == 'admin' %}
+                    <td class="actions-cell">
+                        <a href="{{ url_for('rentals_edit', id=r.id) }}" class="btn-icon" title="Edit">&#9998;</a>
+                        <a href="{{ url_for('rentals_delete', id=r.id) }}" class="btn-icon btn-icon-danger" title="Delete" onclick="return confirmDelete('rental registration')">&#128465;</a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="empty-state">No rental registrations found.</p>
+    {% endif %}
+</div>
+{% endblock %}

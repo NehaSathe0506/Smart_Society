@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Attendance - Smart Society{% endblock %}
+{% block page_title %}Worker Attendance{% endblock %}
+
+{% block content %}
+<div class="page-toolbar">
+    <p class="page-subtitle">Attendance for {{ today }}</p>
+    <a href="{{ url_for('attendance_history') }}" class="btn btn-outline">&#128203; View History</a>
+</div>
+
+<div class="card">
+    {% if workers %}
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr><th>Worker ID</th><th>Name</th><th>Type</th><th>Check-In</th><th>Check-Out</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% for w in workers %}
+                {% set record = attendance_map.get(w.worker_id) %}
+                <tr>
+                    <td><strong>{{ w.worker_id }}</strong></td>
+                    <td>{{ w.worker_name }}</td>
+                    <td>{{ w.worker_type }}</td>
+                    <td>{{ record.check_in if record else '-' }}</td>
+                    <td>{{ record.check_out if record and record.check_out else '-' }}</td>
+                    <td>
+                        {% if record %}
+                            <span class="badge badge-success">Present</span>
+                        {% else %}
+                            <span class="badge badge-gray">Not Marked</span>
+                        {% endif %}
+                    </td>
+                    <td class="actions-cell">
+                        {% if not record %}
+                            <a href="{{ url_for('attendance_checkin', worker_id=w.worker_id) }}" class="btn btn-outline btn-sm">Check-In</a>
+                        {% elif not record.check_out %}
+                            <a href="{{ url_for('attendance_checkout', worker_id=w.worker_id) }}" class="btn btn-outline btn-sm">Check-Out</a>
+                        {% else %}
+                            &mdash;
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="empty-state">No workers found.</p>
+    {% endif %}
+</div>
+{% endblock %}

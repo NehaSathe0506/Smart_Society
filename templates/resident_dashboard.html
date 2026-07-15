@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Smart Society{% endblock %}
+{% block page_title %}Resident Dashboard{% endblock %}
+
+{% block content %}
+<div class="welcome-banner">
+    <h2>Welcome back, {{ resident.full_name if resident else current_username }}! &#128075;</h2>
+    <p>Flat {{ resident.flat_number if resident else '' }}, Wing {{ resident.wing if resident else '' }}</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon" style="background:#EFF6FF;color:#2563EB;">&#128276;</div>
+        <div class="stat-value">{{ active_notices }}</div>
+        <div class="stat-title">Active Notices</div>
+        <div class="stat-desc">Posted by society admin</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="background:#FFFBEB;color:#F59E0B;">&#9888;</div>
+        <div class="stat-value">{{ my_pending }}</div>
+        <div class="stat-title">My Pending Complaints</div>
+        <div class="stat-desc">Awaiting action</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="background:#F0FDF4;color:#16A34A;">&#9989;</div>
+        <div class="stat-value">{{ my_resolved }}</div>
+        <div class="stat-title">My Resolved Complaints</div>
+        <div class="stat-desc">Successfully closed</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon" style="background:#FEF2F2;color:#DC2626;">&#9742;</div>
+        <div class="stat-value">{{ emergency_count }}</div>
+        <div class="stat-title">Emergency Contacts</div>
+        <div class="stat-desc">Available anytime</div>
+    </div>
+</div>
+
+{% if urgent_notices %}
+<div class="card urgent-card">
+    <h3 class="card-heading">&#128680; Urgent Notices</h3>
+    {% for n in urgent_notices %}
+        <div class="urgent-item">
+            <strong>{{ n.title }}</strong>
+            <p>{{ n.description }}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="dashboard-grid">
+    <div class="card">
+        <h3 class="card-heading">Recent Notices</h3>
+        {% if recent_notices %}
+            <ul class="mini-list">
+            {% for n in recent_notices %}
+                <li>
+                    <div>
+                        <strong>{{ n.title }}</strong>
+                        <span class="mini-date">{{ n.notice_date }}</span>
+                    </div>
+                    <span class="badge badge-{{ n.priority|lower }}">{{ n.priority }}</span>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-state">No notices yet.</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3 class="card-heading">Recent Notifications</h3>
+        {% if recent_notifs %}
+            <ul class="mini-list">
+            {% for note in recent_notifs %}
+                <li>
+                    <div>
+                        <strong>{{ note.title }}</strong>
+                        <span class="mini-date">{{ note.created_date }}</span>
+                    </div>
+                    <span class="badge badge-normal">{{ note.notification_type }}</span>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty-state">No notifications yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    <h3 class="card-heading">Quick Actions</h3>
+    <div class="quick-actions">
+        <a href="{{ url_for('complaints_add') }}" class="btn btn-outline">&#10133; Submit Complaint</a>
+        <a href="{{ url_for('notices') }}" class="btn btn-outline">&#128276; View Notices</a>
+        <a href="{{ url_for('rentals') }}" class="btn btn-outline">&#127968; Rental Registration</a>
+        <a href="{{ url_for('emergency') }}" class="btn btn-outline">&#9742; Emergency Contacts</a>
+    </div>
+</div>
+{% endblock %}

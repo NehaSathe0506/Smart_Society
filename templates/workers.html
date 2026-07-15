@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Workers - Smart Society{% endblock %}
+{% block page_title %}Worker Management{% endblock %}
+
+{% block content %}
+<div class="page-toolbar">
+    <p class="page-subtitle">All registered society workers</p>
+    <a href="{{ url_for('workers_add') }}" class="btn btn-primary">&#10133; Add Worker</a>
+</div>
+
+<div class="card">
+    {% if workers %}
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr><th>Worker ID</th><th>Name</th><th>Phone</th><th>Type</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% for w in workers %}
+                <tr>
+                    <td><strong>{{ w.worker_id }}</strong></td>
+                    <td>{{ w.worker_name }}</td>
+                    <td>{{ w.phone }}</td>
+                    <td><span class="badge badge-normal">{{ w.worker_type }}</span></td>
+                    <td class="actions-cell">
+                        <a href="{{ url_for('workers_edit', id=w.id) }}" class="btn-icon" title="Edit">&#9998;</a>
+                        <a href="{{ url_for('workers_delete', id=w.id) }}" class="btn-icon btn-icon-danger" title="Delete" onclick="return confirmDelete('worker')">&#128465;</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="empty-state">No workers found. Add a new worker to get started.</p>
+    {% endif %}
+</div>
+{% endblock %}

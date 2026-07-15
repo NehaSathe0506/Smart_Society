@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Visitors - Smart Society{% endblock %}
+{% block page_title %}Visitor Management{% endblock %}
+
+{% block content %}
+<div class="page-toolbar">
+    <p class="page-subtitle">Showing today's visitors</p>
+    <a href="{{ url_for('visitors_add') }}" class="btn btn-primary">&#10133; Add Visitor</a>
+</div>
+
+<div class="card">
+    {% if visitors %}
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Visitor Name</th><th>Phone</th><th>Flat No.</th><th>Purpose</th><th>Entry</th><th>Exit</th><th>Status</th><th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in visitors %}
+                <tr>
+                    <td>{{ v.visitor_name }}</td>
+                    <td>{{ v.phone }}</td>
+                    <td>{{ v.flat_number }}</td>
+                    <td>{{ v.purpose }}</td>
+                    <td>{{ v.entry_time }}</td>
+                    <td>{{ v.exit_time or '-' }}</td>
+                    <td>
+                        {% if v.status == 'Inside' %}
+                            <span class="badge badge-success">Inside</span>
+                        {% else %}
+                            <span class="badge badge-gray">Exited</span>
+                        {% endif %}
+                    </td>
+                    <td class="actions-cell">
+                        {% if v.status == 'Inside' %}
+                            <a href="{{ url_for('visitors_exit', id=v.id) }}" class="btn btn-outline btn-sm">Mark Exit</a>
+                        {% else %}
+                            &mdash;
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="empty-state">No visitors recorded today.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Admin Panel - Smart Society{% endblock %}
+{% block page_title %}Admin Panel{% endblock %}
+
+{% block content %}
+<div class="admin-grid">
+    <div class="card admin-panel-card">
+        <h3>&#128101; Resident Management</h3>
+        <p>Add, edit, delete and search society residents.</p>
+        <a href="{{ url_for('residents') }}" class="btn btn-primary btn-sm">Manage</a>
+    </div>
+    <div class="card admin-panel-card">
+        <h3>&#128119; Worker Management</h3>
+        <p>Manage housekeeping, security and other staff.</p>
+        <a href="{{ url_for('workers') }}" class="btn btn-primary btn-sm">Manage</a>
+    </div>
+    <div class="card admin-panel-card">
+        <h3>&#128100; Visitor Management</h3>
+        <p>Track visitor entries and exits at the gate.</p>
+        <a href="{{ url_for('visitors') }}" class="btn btn-primary btn-sm">Manage</a>
+    </div>
+    <div class="card admin-panel-card">
+        <h3>&#128276; Notice Management</h3>
+        <p>Publish and remove society-wide notices.</p>
+        <a href="{{ url_for('notices') }}" class="btn btn-primary btn-sm">Manage</a>
+    </div>
+    <div class="card admin-panel-card">
+        <h3>&#9888; Complaint Management</h3>
+        <p>Review and update resident complaint status.</p>
+        <a href="{{ url_for('complaints') }}" class="btn btn-primary btn-sm">Manage</a>
+    </div>
+    <div class="card admin-panel-card">
+        <h3>&#127968; Rental Management</h3>
+        <p>Verify and track rental registrations.</p>
+        <a href="{{ url_for('rentals') }}" class="btn btn-primary btn-sm">Manage</a>
+    </div>
+    <div class="card admin-panel-card">
+        <h3>&#9742; Emergency Contacts</h3>
+        <p>Maintain emergency contact directory.</p>
+        <a href="{{ url_for('emergency') }}" class="btn btn-primary btn-sm">Manage</a>
+    </div>
+    <div class="card admin-panel-card">
+        <h3>&#128203; Attendance Records</h3>
+        <p>View full worker attendance history.</p>
+        <a href="{{ url_for('attendance_history') }}" class="btn btn-primary btn-sm">Manage</a>
+    </div>
+</div>
+{% endblock %}
